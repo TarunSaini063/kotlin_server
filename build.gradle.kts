@@ -47,6 +47,9 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("mysql", "mysql-connector-java","8.0.19")
 
+    implementation("io.ktor:ktor-server-auth:$ktorVersion")
+    implementation("io.ktor:ktor-server-auth-jwt:$ktorVersion")
+
 }
 
 application {

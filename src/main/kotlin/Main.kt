@@ -6,15 +6,14 @@ import io.ktor.server.netty.*
 import io.ktor.server.plugins.callloging.*
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.server.plugins.defaultheaders.*
-import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import service.DatabaseFactory
-import service.UserService
-import service.WidgetService
+import db.DatabaseFactory
+import security.configureSecurity
+import user.repository.UserRepositoryImpl
+import user.routes.authRoutes
+import user.routes.userRoutes
+import user.service.UserService
 import util.JsonMapper
-import web.index
-import web.user
-import web.widget
 
 fun Application.module() {
     install(DefaultHeaders)
@@ -26,16 +25,12 @@ fun Application.module() {
     install(ContentNegotiation) {
         json(JsonMapper.defaultMapper)
     }
-
+    configureSecurity()
     DatabaseFactory.connectAndMigrate()
-
-//    val widgetService = WidgetService()
-    val userService  = UserService()
-    install(Routing) {
-        index()
-//        widget(widgetService)
-        user(userService)
-    }
+    val userService = UserService()
+    val userRepositoryImpl = UserRepositoryImpl(userService)
+    authRoutes(userRepositoryImpl)
+    userRoutes(userRepositoryImpl)
 
 }
 

@@ -9,9 +9,7 @@ import io.restassured.specification.RequestSpecification
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
-import model.Widgets
 import module
-import org.jetbrains.exposed.sql.deleteAll
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -56,7 +54,6 @@ open class ServerTest {
     @BeforeEach
     fun before() = runBlocking {
         newSuspendedTransaction {
-            Widgets.deleteAll()
             Unit
         }
     }

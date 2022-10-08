@@ -1,16 +1,15 @@
-package service
+package db
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import model.Users
 import org.flywaydb.core.Flyway
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.exists
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
+import user.model.UserTable
 import javax.sql.DataSource
 
 object DatabaseFactory {
@@ -22,7 +21,7 @@ object DatabaseFactory {
         val pool = hikari()
         Database.connect(pool)
         transaction {
-            SchemaUtils.create(Users)
+            SchemaUtils.create(UserTable)
         }
         runFlyway(pool)
     }
