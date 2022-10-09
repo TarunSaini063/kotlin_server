@@ -1,0 +1,1 @@
+web: /build/install/kotlin_server/bin/kotlin_server
