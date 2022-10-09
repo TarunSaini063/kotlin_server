@@ -59,6 +59,9 @@ application {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+tasks.create("stage"){
+    dependsOn("installDist")
+}
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     jvmTarget = "1.8"
